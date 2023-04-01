@@ -8,7 +8,6 @@ import torchvision.transforms as transforms
 
 from src.models.modnet import MODNet
 
-
 torch_transforms = transforms.Compose(
     [
         transforms.ToTensor(),
@@ -38,7 +37,7 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 print('Start matting...')
-while(True):
+while (True):
     _, frame_np = cap.read()
     frame_np = cv2.cvtColor(frame_np, cv2.COLOR_BGR2RGB)
     frame_np = cv2.resize(frame_np, (910, 512), cv2.INTER_AREA)
@@ -50,7 +49,7 @@ while(True):
     frame_tensor = frame_tensor[None, :, :, :]
     if GPU:
         frame_tensor = frame_tensor.cuda()
-    
+
     with torch.no_grad():
         _, _, matte_tensor = modnet(frame_tensor, True)
 
